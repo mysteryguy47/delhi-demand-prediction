@@ -34,6 +34,26 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+
+
+
+# Reduce top and bottom padding globally
+st.markdown(
+    """
+    <style>
+    div.block-container {
+        padding-top: 0rem !important;
+        padding-bottom: 0rem !important;
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
 # ---------------------------
 # Load dataset
 # ---------------------------
@@ -211,7 +231,7 @@ st.markdown(
 # ---------------------------
 # Main headings
 # ---------------------------
-st.markdown("<h1 style='text-align: center;'>Unveiling Delhi’s Electricity Needs</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; margin-bottom: -40px;'>Unveiling Delhi’s Electricity Needs</h1>", unsafe_allow_html=True)
 st.markdown("<h1 style='text-align: center;'>One <span style='color: red;'>Prediction</span> at a Time</h1>", unsafe_allow_html=True)
 
 # ---------------------------
@@ -225,16 +245,17 @@ if os.path.exists(video_path):
     video_base64 = base64.b64encode(video_bytes).decode()
 
     video_html = f"""
-        <video autoplay muted loop width="800" playsinline>
-            <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+        <div style="width: 800px; margin: 0 auto; overflow: hidden; position: relative; height: 340px;">  <!-- Adjust height to ~80% of original video height; test and tweak -->
+            <video autoplay muted loop playsinline style="width: 100%; height: auto; position: absolute; top: 0; left: 0;">
+                <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
     """
 
     st.markdown(video_html, unsafe_allow_html=True)
 else:
     st.error(f"Video file not found at {video_path}. Please check the file path.")
-
 # ---------------------------
 # Section 1: Prediction
 # ---------------------------
